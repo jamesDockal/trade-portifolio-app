@@ -24,28 +24,32 @@ export default function Home() {
         <div className="flex gap-10">
           <AddPortifolio />
 
-          <AddTrade />
+          {currentPortifolio && <AddTrade />}
         </div>
 
-        <div className="bg-primary-foreground w-[150px]">
-          <Select value={currentPortifolio.name}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a portifolio" />
-            </SelectTrigger>
-            <SelectContent>
-              {portifolios.map(({ name }) => (
-                <SelectItem key={name} value={name}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {currentPortifolio && (
+          <div className="bg-primary-foreground w-[150px]">
+            <Select value={currentPortifolio?.name}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a portifolio" />
+              </SelectTrigger>
+              <SelectContent>
+                {portifolios.map(({ name }) => (
+                  <SelectItem key={name} value={name}>
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
-      <div className="mt-10">
-        <TradesTable />
-      </div>
+      {currentPortifolio && (
+        <div className="mt-10">
+          <TradesTable />
+        </div>
+      )}
     </div>
   );
 }

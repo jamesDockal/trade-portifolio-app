@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -6,43 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { usePortifolio } from "@/hooks/portifio.hook";
 import { format } from "date-fns";
 
 export function TradesTable() {
-  const trades = [
-    {
-      id: 1,
-      ticker: "TSLA",
-      entry_price: 1,
-      exit_price: 2,
-      quantity: 10,
-      date: new Date(),
-    },
-    {
-      id: 2,
-      ticker: "TSLA",
-      entry_price: 1000,
-      exit_price: 2000,
-      quantity: 10,
-      date: new Date(),
-    },
-    {
-      id: 3,
-      ticker: "TSLA",
-      entry_price: 1000,
-      exit_price: 2000,
-      quantity: 10,
-      date: new Date(),
-    },
-    {
-      id: 4,
-      ticker: "TSLA",
-      entry_price: 1000,
-      exit_price: 2000,
-      quantity: 10,
-      date: new Date(),
-    },
-  ];
+  const { currentPortifolio } = usePortifolio();
 
   const formatToCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -64,7 +34,7 @@ export function TradesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {trades.map((trade) => (
+        {currentPortifolio?.trades?.map((trade) => (
           <TableRow key={trade.id}>
             <TableCell>{trade.ticker}</TableCell>
             <TableCell>{formatToCurrency(trade.exit_price)}</TableCell>
