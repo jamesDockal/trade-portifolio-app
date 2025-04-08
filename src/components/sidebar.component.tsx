@@ -1,10 +1,8 @@
-// components/Sidebar.tsx
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-// import { ScrollArea } from "@/components/ui/scroll-area";
 import { Home, Settings, Users } from "lucide-react";
 
 const navItems = [

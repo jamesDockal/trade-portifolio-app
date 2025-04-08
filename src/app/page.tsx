@@ -11,9 +11,18 @@ import {
 import { TradesTable } from "@/components/trades-table.component";
 import { AddPortifolio } from "@/components/add-portifolio.component";
 import { AddTrade } from "@/components/add-trade.component";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
-  const { currentPortifolio, portifolios } = usePortifolio();
+  const { currentPortifolio, portifolios, isLoading } = usePortifolio();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -26,8 +35,8 @@ export default function Home() {
                   <SelectValue placeholder="Select a portifolio" />
                 </SelectTrigger>
                 <SelectContent>
-                  {portifolios.map(({ name }) => (
-                    <SelectItem key={name} value={name}>
+                  {portifolios.map(({ name, id }) => (
+                    <SelectItem key={id} value={name}>
                       {name}
                     </SelectItem>
                   ))}

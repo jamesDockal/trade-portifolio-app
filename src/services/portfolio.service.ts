@@ -8,8 +8,13 @@ export class PortfolioService {
     baseURL: url,
   });
 
-  createTrade = async (payload: IPortifolio) => {
+  async createTrade(payload: IPortifolio) {
     const response = await this.api.post("/portfolios", payload);
     return response.data;
-  };
+  }
+
+  async getPortfolios() {
+    const response = await this.api.get("/portfolios");
+    return response.data;
+  }
 }

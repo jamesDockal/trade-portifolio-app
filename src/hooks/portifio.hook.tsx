@@ -2,7 +2,14 @@
 
 import { IPortifolio } from "@/interfaces/portfolio.interface";
 import { PortfolioService } from "@/services/portfolio.service";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import toast from "react-hot-toast";
 
 export type ITrade = {
   id: number;
@@ -18,6 +25,7 @@ type IPortifolioContext = {
   createPortifolio: (data: IPortifolio) => Promise<void>;
   addTradeToPortifolio: (data: ITrade) => void;
   portifolios: IPortifolio[];
+  isLoading: boolean;
 };
 
 const PortifolioContext = createContext<IPortifolioContext>(
@@ -32,6 +40,7 @@ export const PortifolioProvider: React.FC<{
   const [currentPortifolio, setCurrentPortifolio] =
     useState<IPortifolio | null>(null);
   const [portifolios, setPortifolios] = useState([] as IPortifolio[]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const createPortifolio = async (data: IPortifolio) => {
     const newPortfolio = await portfolioService.createTrade(data);
@@ -50,6 +59,23 @@ export const PortifolioProvider: React.FC<{
     );
   };
 
+  const getAllPortfolios = async () => {
+    try {
+      setIsLoading(true);
+      const allPortfolios = await portfolioService.getPortfolios();
+      setPortifolios(allPortfolios);
+      setCurrentPortifolio(allPortfolios[0]);
+    } catch {
+      toast.error("Fail to get portfolios");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllPortfolios();
+  }, []);
+
   return (
     <PortifolioContext.Provider
       value={{
@@ -57,6 +83,7 @@ export const PortifolioProvider: React.FC<{
         createPortifolio,
         portifolios,
         addTradeToPortifolio,
+        isLoading,
       }}
     >
       {children}
