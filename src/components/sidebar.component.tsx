@@ -36,7 +36,7 @@ export function Sidebar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-all hover:bg-muted",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-muted",
                     isActive ? "bg-muted font-medium" : "text-muted-foreground"
                   )}
                 >
@@ -53,10 +53,10 @@ export function Sidebar() {
 
   return (
     <>
-      <div className="md:hidden fixed top-4 left-4 z-50">
+      <div className="lg:hidden fixed top-4 left-4 z-50">
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="lg" className="ml-12" >
+            <Button size="lg" className="ml-12">
               <Menu className="h-5 w-5 " />
             </Button>
           </SheetTrigger>
@@ -68,7 +68,7 @@ export function Sidebar() {
         </Sheet>
       </div>
 
-      <aside className="hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-64 md:border-r md:bg-primary md:block">
+      <aside className="hidden lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-64 lg:border-r lg:bg-primary lg:block">
         <div className="p-6 text-lg font-semibold">Menu</div>
         <div className="h-[calc(100vh-4rem)] px-4 pb-6">{NavLinks()}</div>
       </aside>

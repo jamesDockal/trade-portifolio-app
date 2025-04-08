@@ -14,6 +14,8 @@ import { ChartArea, Loader2, Table } from "lucide-react";
 import { AddPortfolio } from "@/components/add-portfolio.component";
 import { useState } from "react";
 import { TradesChart } from "@/components/trades-chart.component";
+import { ITrade } from "@/interfaces/trade.interface";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function Home() {
   const { currentPortfolio, portfolios, isLoading, changeCurrentPortfolio } =
@@ -29,11 +31,32 @@ export default function Home() {
     );
   }
 
+  const formatToCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
+  };
+
+  const calculatePNL = (trade: ITrade): number => {
+    const { entry_price, exit_price, quantity } = trade;
+    const pnl = (exit_price - entry_price) * quantity;
+    return Math.round(pnl * 100) / 100;
+  };
+
+  const totalPnL =
+    currentPortfolio?.trades?.reduce(
+      (acc, trade) => acc + calculatePNL(trade),
+      0
+    ) ?? 0;
+  const isPositive = totalPnL >= 0;
+
   return (
     <div className="w-full overflow-hidden">
-        <div className="flex flex-col md:flex-row items-centetr gap-10">
+      <div className="flex flex-col lg:flex-row items-center justify-between flex-wrap gap-6">
+        <div className="flex-1 flex flex-col lg:flex-row items-center gap-6 w-full flex-wrap">
           {currentPortfolio && (
-            <div className="bg-primary-foreground w-full md:w-[250px]">
+            <div className="bg-primary-foreground w-full lg:w-[250px]">
               <Select
                 value={currentPortfolio?.id.toString()}
                 onValueChange={changeCurrentPortfolio}
@@ -55,6 +78,22 @@ export default function Home() {
           <AddPortfolio />
 
           {currentPortfolio && <AddTrade />}
+        </div>
+
+        <Card className="w-full lg:w-auto border border-muted bg-background shadow-sm rounded-xl">
+          <CardContent className="flex flex-col items-center justify-center text-center px-6 py-3">
+            <span className="text-xs text-muted-foreground uppercase tracking-wider">
+              Total PnL
+            </span>
+            <span
+              className={`text-xl font-semibold ${
+                isPositive ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {formatToCurrency(totalPnL)}
+            </span>
+          </CardContent>
+        </Card>
       </div>
 
       {currentPortfolio && (

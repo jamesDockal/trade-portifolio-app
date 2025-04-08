@@ -19,7 +19,7 @@ export const AddTrade: React.FC = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="lg">
+        <Button size="lg" className="w-full lg:w-[150px]">
           <Plus className="mr-2 h-4 w-4" />
           Add Trade
         </Button>

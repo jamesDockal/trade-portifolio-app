@@ -34,7 +34,7 @@ export default function RootLayout({
           <Toaster position="top-right" />
 
           <Sidebar />
-          <div className="px-16 md:pl-[300px] pt-[75px] md:pt-[50px] w-full h-full">
+          <div className="px-16 lg:pl-[300px] pt-[75px] lg:pt-[50px] w-full h-full">
             {children}
           </div>
         </PortfolioProvider>

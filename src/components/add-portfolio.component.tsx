@@ -18,7 +18,7 @@ export const AddPortfolio: React.FC = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="lg" variant="outline">
+        <Button size="lg" variant="outline" className="w-full lg:w-[150px]">
           <Plus className="mr-2 h-4 w-4" />
           Create Portfolio
         </Button>
