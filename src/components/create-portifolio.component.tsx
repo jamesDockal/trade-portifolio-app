@@ -21,12 +21,8 @@ export const CreatePortifolio: React.FC<Props> = ({ closeModal }) => {
       formData.entries()
     ) as unknown as IPortifolio;
 
-    try {
-      await createPortifolio(data);
-      closeModal();
-    } catch (error) {
-      console.error("Error creating portifolio:", error);
-    }
+    await createPortifolio(data);
+    closeModal();
   };
 
   return (

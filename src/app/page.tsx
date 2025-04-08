@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { TradesTable } from "@/components/trades-table.component";
 import { AddPortifolio } from "@/components/add-portifolio.component";
+import { AddTrade } from "@/components/add-trade.component";
 
 export default function Home() {
   const { currentPortifolio, portifolios } = usePortifolio();
@@ -23,10 +24,7 @@ export default function Home() {
         <div className="flex gap-10">
           <AddPortifolio />
 
-          <Button size="lg">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Stock
-          </Button>
+          <AddTrade />
         </div>
 
         <div className="bg-primary-foreground w-[150px]">
