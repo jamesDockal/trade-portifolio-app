@@ -1,6 +1,6 @@
 "use client";
 
-import { usePortifolio } from "@/hooks/portifio.hook";
+import { usePortfolio } from "@/hooks/portfolio.hook";
 import {
   Select,
   SelectContent,
@@ -9,17 +9,17 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { TradesTable } from "@/components/trades-table.component";
-import { AddPortifolio } from "@/components/add-portifolio.component";
 import { AddTrade } from "@/components/add-trade.component";
 import { Loader2 } from "lucide-react";
+import { AddPortfolio } from "@/components/add-portfolio.component";
 
 export default function Home() {
-  const { currentPortifolio, portifolios, isLoading } = usePortifolio();
+  const { currentPortfolio, portfolios, isLoading } = usePortfolio();
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
@@ -28,14 +28,14 @@ export default function Home() {
     <div className="w-full">
       <div className="w-full flex items-center">
         <div className="flex gap-10">
-          {currentPortifolio && (
+          {currentPortfolio && (
             <div className="bg-primary-foreground w-[250px]">
-              <Select value={currentPortifolio?.name}>
+              <Select value={currentPortfolio?.name}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a portifolio" />
+                  <SelectValue placeholder="Select a portfolio" />
                 </SelectTrigger>
                 <SelectContent>
-                  {portifolios.map(({ name, id }) => (
+                  {portfolios.map(({ name, id }) => (
                     <SelectItem key={id} value={name}>
                       {name}
                     </SelectItem>
@@ -45,13 +45,13 @@ export default function Home() {
             </div>
           )}
 
-          <AddPortifolio />
+          <AddPortfolio />
 
-          {currentPortifolio && <AddTrade />}
+          {currentPortfolio && <AddTrade />}
         </div>
       </div>
 
-      {currentPortifolio && (
+      {currentPortfolio?.trades?.length && (
         <div className="mt-10">
           <TradesTable />
         </div>

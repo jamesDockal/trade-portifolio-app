@@ -8,11 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePortifolio } from "@/hooks/portifio.hook";
+import { usePortfolio } from "@/hooks/portfolio.hook";
 import { format } from "date-fns";
 
 export function TradesTable() {
-  const { currentPortifolio } = usePortifolio();
+  const { currentPortfolio } = usePortfolio();
 
   const formatToCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -34,7 +34,7 @@ export function TradesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {currentPortifolio?.trades?.map((trade) => (
+        {currentPortfolio?.trades?.map((trade) => (
           <TableRow key={trade.id}>
             <TableCell>{trade.ticker}</TableCell>
             <TableCell>{formatToCurrency(trade.exit_price)}</TableCell>

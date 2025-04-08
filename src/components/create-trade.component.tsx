@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ITrade, usePortifolio } from "@/hooks/portifio.hook";
+import { ITrade, usePortfolio } from "@/hooks/portfolio.hook";
 import { currencyMask } from "@/utils/masks";
 import { DatePicker } from "./datepicker.component";
 import toast from "react-hot-toast";
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const CreateTrade: React.FC<Props> = ({ closeModal }) => {
-  const { addTradeToPortifolio } = usePortifolio();
+  const { addTradeToPortfolio } = usePortfolio();
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ export const CreateTrade: React.FC<Props> = ({ closeModal }) => {
         formData.entries()
       ) as unknown as ITrade;
 
-      await addTradeToPortifolio({
+      await addTradeToPortfolio({
         ...data,
         date: date!,
       });

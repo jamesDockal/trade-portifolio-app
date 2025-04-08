@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreatePortifolio } from "@/components/create-portifolio.component";
+import { CreatePortfolio } from "@/components/create-portfolio.component";
 import { Button } from "./ui/button";
 import { Plus } from "lucide-react";
 import { CreateTrade } from "./create-trade.component";

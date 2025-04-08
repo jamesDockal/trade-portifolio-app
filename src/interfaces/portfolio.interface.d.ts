@@ -1,6 +1,6 @@
-import { ITrade } from "@/hooks/portifio.hook";
+import { ITrade } from "@/hooks/portfolio.hook";
 
-export type IPortifolio = {
+export type IPortfolio = {
   id: number;
   name: string;
   initialAmount: number;

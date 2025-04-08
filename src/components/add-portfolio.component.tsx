@@ -8,11 +8,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreatePortifolio } from "@/components/create-portifolio.component";
+import { CreatePortfolio } from "@/components/create-portfolio.component";
 import { Button } from "./ui/button";
 import { Plus } from "lucide-react";
 
-export const AddPortifolio: React.FC = () => {
+export const AddPortfolio: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -28,7 +28,7 @@ export const AddPortifolio: React.FC = () => {
         <DialogHeader>
           <DialogTitle>Create Portfolio</DialogTitle>
         </DialogHeader>
-        <CreatePortifolio closeModal={() => setOpen(false)} />
+        <CreatePortfolio closeModal={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );
