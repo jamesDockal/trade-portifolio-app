@@ -30,11 +30,10 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full">
-      <div className="w-full flex items-center">
-        <div className="flex gap-10">
+    <div className="w-full overflow-hidden">
+        <div className="flex flex-col md:flex-row items-centetr gap-10">
           {currentPortfolio && (
-            <div className="bg-primary-foreground w-[250px]">
+            <div className="bg-primary-foreground w-full md:w-[250px]">
               <Select
                 value={currentPortfolio?.id.toString()}
                 onValueChange={changeCurrentPortfolio}
@@ -56,7 +55,6 @@ export default function Home() {
           <AddPortfolio />
 
           {currentPortfolio && <AddTrade />}
-        </div>
       </div>
 
       {currentPortfolio && (
