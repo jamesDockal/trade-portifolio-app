@@ -27,8 +27,10 @@ export const CreateTrade: React.FC<Props> = ({ closeModal }) => {
       const formData = new FormData(e.currentTarget);
       const data = Object.fromEntries(formData.entries());
 
-      const entry_price = (data.entry_price as string).replace("$", "");
-      const exit_price = (data.exit_price as string).replace("$", "");
+      const entry_price = (data.entry_price as string).replace(/[$,]/g, "");
+      const exit_price = (data.exit_price as string).replace(/[$,]/g, "");
+
+      console.log("entry_price", entry_price);
 
       await addTradeToPortfolio({
         ...data,

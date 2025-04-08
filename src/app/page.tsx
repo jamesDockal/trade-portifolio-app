@@ -10,12 +10,16 @@ import {
 } from "@/components/ui/select";
 import { TradesTable } from "@/components/trades-table.component";
 import { AddTrade } from "@/components/add-trade.component";
-import { Loader2 } from "lucide-react";
+import { ChartArea, Loader2, Table } from "lucide-react";
 import { AddPortfolio } from "@/components/add-portfolio.component";
+import { useState } from "react";
+import { TradesChart } from "@/components/trades-chart.component";
 
 export default function Home() {
   const { currentPortfolio, portfolios, isLoading, changeCurrentPortfolio } =
     usePortfolio();
+
+  const [isFocusingInChart, setIsFocusingInChart] = useState(false);
 
   if (isLoading) {
     return (
@@ -57,7 +61,25 @@ export default function Home() {
 
       {currentPortfolio && (
         <div className="mt-10">
-          <TradesTable />
+          <div className="flex justify-end gap-2">
+            <div
+              className={`${
+                !isFocusingInChart && "bg-primary text-secondary"
+              } cursor-pointer p-2 rounded`}
+              onClick={() => setIsFocusingInChart(false)}
+            >
+              <Table />
+            </div>
+            <div
+              className={`${
+                isFocusingInChart && "bg-primary text-secondary"
+              } cursor-pointer p-2 rounded`}
+              onClick={() => setIsFocusingInChart(true)}
+            >
+              <ChartArea />
+            </div>
+          </div>
+          {isFocusingInChart ? <TradesChart /> : <TradesTable />}
         </div>
       )}
     </div>

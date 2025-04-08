@@ -24,8 +24,10 @@ export function TradesTable() {
     }).format(value);
   };
 
-  const calculatePNL = (trade: ITrade) => {
-    return (trade.exit_price - trade.entry_price) * trade.quantity;
+  const calculatePNL = (trade: ITrade): number => {
+    const { entry_price, exit_price, quantity } = trade;
+    const pnl = (exit_price - entry_price) * quantity;
+    return Math.round(pnl * 100) / 100;
   };
 
   const trades = currentPortfolio?.trades;
@@ -57,8 +59,8 @@ export function TradesTable() {
         {trades?.map((trade) => (
           <TableRow key={trade.id}>
             <TableCell>{trade.ticker}</TableCell>
-            <TableCell>{formatToCurrency(trade.exit_price)}</TableCell>
             <TableCell>{formatToCurrency(trade.entry_price)}</TableCell>
+            <TableCell>{formatToCurrency(trade.exit_price)}</TableCell>
             <TableCell>{trade.quantity}</TableCell>
             <TableCell>{format(trade.date, "MM/dd/yyyy")}</TableCell>
             <TableCell>{formatToCurrency(calculatePNL(trade))}</TableCell>
