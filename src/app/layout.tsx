@@ -27,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`}
       >
         <PortifolioProvider>
           <Sidebar />
-          <div className="ml-[300px] mt-4">{children}</div>
+          <div className="pl-[300px] pt-[50px] w-full pr-[100px] h-full">
+            {children}
+          </div>
         </PortifolioProvider>
       </body>
     </html>

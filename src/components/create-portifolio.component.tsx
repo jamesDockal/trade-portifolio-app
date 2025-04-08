@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { IPortifolio, usePortifolio } from "@/hooks/portifio.hook";
 import { currencyMask } from "@/utils/masks";
 
-export const CreatePortifolio: React.FC = () => {
+type Props = {
+  closeModal: () => void;
+};
+
+export const CreatePortifolio: React.FC<Props> = ({ closeModal }) => {
   const { createPortifolio } = usePortifolio();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,6 +23,7 @@ export const CreatePortifolio: React.FC = () => {
 
     try {
       await createPortifolio(data);
+      closeModal();
     } catch (error) {
       console.error("Error creating portifolio:", error);
     }
