@@ -26,6 +26,7 @@ type IPortfolioContext = {
   addTradeToPortfolio: (data: ITrade) => void;
   portfolios: IPortfolio[];
   isLoading: boolean;
+  changeCurrentPortfolio: (id: number | string) => void;
 };
 
 const PortfolioContext = createContext<IPortfolioContext>(
@@ -73,6 +74,15 @@ export const PortfolioProvider: React.FC<{
     }
   };
 
+  const changeCurrentPortfolio = (id: number | string) => {
+    const selectedPortfolio = portfolios.find(
+      (portfolio) => portfolio.id == id
+    );
+    if (selectedPortfolio) {
+      setCurrentPortfolio(selectedPortfolio);
+    }
+  };
+
   useEffect(() => {
     getAllPortfolios();
   }, []);
@@ -85,6 +95,7 @@ export const PortfolioProvider: React.FC<{
         portfolios,
         addTradeToPortfolio,
         isLoading,
+        changeCurrentPortfolio,
       }}
     >
       {children}

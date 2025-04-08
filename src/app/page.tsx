@@ -14,7 +14,8 @@ import { Loader2 } from "lucide-react";
 import { AddPortfolio } from "@/components/add-portfolio.component";
 
 export default function Home() {
-  const { currentPortfolio, portfolios, isLoading } = usePortfolio();
+  const { currentPortfolio, portfolios, isLoading, changeCurrentPortfolio } =
+    usePortfolio();
 
   if (isLoading) {
     return (
@@ -30,13 +31,16 @@ export default function Home() {
         <div className="flex gap-10">
           {currentPortfolio && (
             <div className="bg-primary-foreground w-[250px]">
-              <Select value={currentPortfolio?.name}>
+              <Select
+                value={currentPortfolio?.id.toString()}
+                onValueChange={changeCurrentPortfolio}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a portfolio" />
                 </SelectTrigger>
                 <SelectContent>
                   {portfolios.map(({ name, id }) => (
-                    <SelectItem key={id} value={name}>
+                    <SelectItem key={id} value={id.toString()}>
                       {name}
                     </SelectItem>
                   ))}
