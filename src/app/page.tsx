@@ -55,7 +55,7 @@ export default function Home() {
         </div>
       </div>
 
-      {currentPortfolio?.trades?.length && (
+      {currentPortfolio && (
         <div className="mt-10">
           <TradesTable />
         </div>

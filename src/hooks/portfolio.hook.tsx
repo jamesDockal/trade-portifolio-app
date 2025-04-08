@@ -1,6 +1,7 @@
 "use client";
 
 import { IPortfolio } from "@/interfaces/portfolio.interface";
+import { ITrade } from "@/interfaces/trade.interface";
 import { PortfolioService } from "@/services/portfolio.service";
 import React, {
   createContext,
@@ -11,19 +12,10 @@ import React, {
 } from "react";
 import toast from "react-hot-toast";
 
-export type ITrade = {
-  id: number;
-  ticker: string;
-  entry_price: number;
-  exit_price: number;
-  quantity: number;
-  date: Date;
-};
-
 type IPortfolioContext = {
   currentPortfolio: IPortfolio | null;
   createPortfolio: (data: IPortfolio) => Promise<void>;
-  addTradeToPortfolio: (data: ITrade) => void;
+  addTradeToPortfolio: (data: ITrade) => Promise<void>;
   portfolios: IPortfolio[];
   isLoading: boolean;
   changeCurrentPortfolio: (id: number | string) => void;
@@ -45,13 +37,18 @@ export const PortfolioProvider: React.FC<{
   const [isLoading, setIsLoading] = useState(true);
 
   const createPortfolio = async (data: IPortfolio) => {
-    const newPortfolio = await portfolioService.createTrade(data);
+    const newPortfolio = await portfolioService.createPortfolio(data);
 
     setCurrentPortfolio(newPortfolio);
     setPortfolios((oldState) => [...oldState, newPortfolio]);
   };
 
-  const addTradeToPortfolio = (newTrade: ITrade) => {
+  const addTradeToPortfolio = async (data: ITrade) => {
+    const newTrade = await portfolioService.addTrade({
+      ...data,
+      portfolioId: currentPortfolio!.id,
+    });
+
     setCurrentPortfolio(
       (oldState) =>
         ({

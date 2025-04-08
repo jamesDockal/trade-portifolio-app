@@ -1,4 +1,4 @@
-import { ITrade } from "@/hooks/portfolio.hook";
+import { ITrade } from "./trade.interface";
 
 export type IPortfolio = {
   id: number;
