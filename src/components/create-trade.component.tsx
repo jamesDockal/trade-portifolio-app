@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ITrade, usePortifolio } from "@/hooks/portifio.hook";
 import { currencyMask } from "@/utils/masks";
 import { DatePicker } from "./datepicker.component";
+import toast from "react-hot-toast";
 
 type Props = {
   closeModal: () => void;
@@ -13,21 +14,26 @@ type Props = {
 
 export const CreateTrade: React.FC<Props> = ({ closeModal }) => {
   const { addTradeToPortifolio } = usePortifolio();
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const data: ITrade = Object.fromEntries(
-      formData.entries()
-    ) as unknown as ITrade;
+      const formData = new FormData(e.currentTarget);
+      const data: ITrade = Object.fromEntries(
+        formData.entries()
+      ) as unknown as ITrade;
 
-    await addTradeToPortifolio({
-      ...data,
-      date,
-    });
-    closeModal();
+      await addTradeToPortifolio({
+        ...data,
+        date: date!,
+      });
+      closeModal();
+      toast.success("Submitted successfully!");
+    } catch (error) {
+      toast.error("Fail to create portfolio");
+    }
   };
 
   return (

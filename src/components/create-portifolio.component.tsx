@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { IPortifolio, usePortifolio } from "@/hooks/portifio.hook";
+import { usePortifolio } from "@/hooks/portifio.hook";
 import { currencyMask } from "@/utils/masks";
+import { IPortifolio } from "@/interfaces/portfolio.interface";
+import toast from "react-hot-toast";
 
 type Props = {
   closeModal: () => void;
@@ -13,16 +15,29 @@ type Props = {
 export const CreatePortifolio: React.FC<Props> = ({ closeModal }) => {
   const { createPortifolio } = usePortifolio();
 
+  const [isLoading, setisLoading] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    try {
+      setisLoading(true);
+      e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const data: IPortifolio = Object.fromEntries(
-      formData.entries()
-    ) as unknown as IPortifolio;
+      const formData = new FormData(e.currentTarget);
+      const data = Object.fromEntries(formData.entries());
 
-    await createPortifolio(data);
-    closeModal();
+      const initialAmount = (data.initialAmount as string).replace("$", "");
+
+      await createPortifolio({
+        name: data.name,
+        initialAmount: parseFloat(initialAmount),
+      } as IPortifolio);
+      closeModal();
+      toast.success("Successfully create portfolio!");
+    } catch (error) {
+      toast.error("Fail to create portfolio");
+    } finally {
+      setisLoading(false);
+    }
   };
 
   return (
@@ -47,7 +62,7 @@ export const CreatePortifolio: React.FC<Props> = ({ closeModal }) => {
         placeholder="Enter the inital amount of the portifolio"
         onChange={currencyMask}
       />
-      <Button type="submit" variant="success">
+      <Button type="submit" variant="success" disabled={isLoading}>
         Create
       </Button>
     </form>

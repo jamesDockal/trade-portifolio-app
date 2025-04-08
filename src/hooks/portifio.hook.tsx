@@ -1,5 +1,7 @@
 "use client";
 
+import { IPortifolio } from "@/interfaces/portfolio.interface";
+import { PortfolioService } from "@/services/portfolio.service";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type ITrade = {
@@ -11,15 +13,9 @@ export type ITrade = {
   date: Date;
 };
 
-export type IPortifolio = {
-  name: string;
-  initialAmount: number;
-  trades: ITrade[];
-};
-
 type IPortifolioContext = {
   currentPortifolio: IPortifolio | null;
-  createPortifolio: (data: IPortifolio) => void;
+  createPortifolio: (data: IPortifolio) => Promise<void>;
   addTradeToPortifolio: (data: ITrade) => void;
   portifolios: IPortifolio[];
 };
@@ -31,13 +27,17 @@ const PortifolioContext = createContext<IPortifolioContext>(
 export const PortifolioProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
+  const portfolioService = new PortfolioService();
+
   const [currentPortifolio, setCurrentPortifolio] =
     useState<IPortifolio | null>(null);
   const [portifolios, setPortifolios] = useState([] as IPortifolio[]);
 
-  const createPortifolio = (data: IPortifolio) => {
-    setCurrentPortifolio(data);
-    setPortifolios((oldState) => [...oldState, data]);
+  const createPortifolio = async (data: IPortifolio) => {
+    const newPortfolio = await portfolioService.createTrade(data);
+
+    setCurrentPortifolio(newPortfolio);
+    setPortifolios((oldState) => [...oldState, newPortfolio]);
   };
 
   const addTradeToPortifolio = (newTrade: ITrade) => {
